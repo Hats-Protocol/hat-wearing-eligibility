@@ -1,22 +1,18 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
 // import { console2 } from "forge-std/Test.sol"; // remove before deploy
-import { HatsModule } from "hats-module/HatsModule.sol";
+import { HatsEligibilityModule, HatsModule } from "hats-module/HatsEligibilityModule.sol";
 
-contract Module is HatsModule {
-  /*//////////////////////////////////////////////////////////////
-                            CUSTOM ERRORS
-  //////////////////////////////////////////////////////////////*/
-
-  /*//////////////////////////////////////////////////////////////
-                              EVENTS
-  //////////////////////////////////////////////////////////////*/
-
-  /*//////////////////////////////////////////////////////////////
-                            DATA MODELS
-  //////////////////////////////////////////////////////////////*/
-
+/**
+ * @title HatWearingEligibility
+ * @author spengrah
+ * @author Haberdasher Labs
+ * @notice This contract is a simple Hats Protocol eligibility module that checks if a user is wearing a specific hat.
+ * @dev This contract inherits from HatsModule and is designed for minimal proxy clones to be deployed via
+ * HatsModuleFactory. To work, it must be set as the eligibility module for a given hat.
+ */
+contract HatWearingEligibility is HatsEligibilityModule {
   /*//////////////////////////////////////////////////////////////
                             CONSTANTS 
   //////////////////////////////////////////////////////////////*/
@@ -39,13 +35,10 @@ contract Module is HatsModule {
    * 0       | IMPLEMENTATION    | address | 20      | HatsModule          |
    * 20      | HATS              | address | 20      | HatsModule          |
    * 40      | hatId             | uint256 | 32      | HatsModule          |
-   * 72+     | {other constants} | address | -       | {this}              |
    * ----------------------------------------------------------------------+
    */
 
-  /*//////////////////////////////////////////////////////////////
-                            MUTABLE STATE
-  //////////////////////////////////////////////////////////////*/
+  /// @dev hatId is the id of the hat that determines eligibility
 
   /*//////////////////////////////////////////////////////////////
                             CONSTRUCTOR
@@ -56,7 +49,7 @@ contract Module is HatsModule {
   constructor(string memory _version) HatsModule(_version) { }
 
   /*//////////////////////////////////////////////////////////////
-                            INITIALIZOR
+                            INITIALIZER
   //////////////////////////////////////////////////////////////*/
 
   /// @inheritdoc HatsModule
@@ -65,18 +58,19 @@ contract Module is HatsModule {
   }
 
   /*//////////////////////////////////////////////////////////////
-                        PUBLIC FUNCTIONS
+                      HATS ELIGIBILITY FUNCTION
   //////////////////////////////////////////////////////////////*/
 
-  /*//////////////////////////////////////////////////////////////
-                          VIEW FUNCTIONS
-  //////////////////////////////////////////////////////////////*/
+  /// @inheritdoc HatsEligibilityModule
+  function getWearerStatus(address _wearer, uint256 /**_hatId */)// forgefmt: disable-line
+    public
+    view
+    override
+    returns (bool eligible, bool standing)
+  {
+    /// @dev this module does not determine standing, so we default to good standing
+    standing = true;
 
-  /*//////////////////////////////////////////////////////////////
-                        INTERNAL FUNCTIONS
-  //////////////////////////////////////////////////////////////*/
-
-  /*//////////////////////////////////////////////////////////////
-                            MODIFERS
-  //////////////////////////////////////////////////////////////*/
+    eligible = HATS().isWearerOfHat(_wearer, hatId());
+  }
 }
