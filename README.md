@@ -1,8 +1,10 @@
-# hats-module-template
+# Hat Wearing Eligibility
 
-Template repo for Hats Module projects.
+A [Hats Protocol](https://github.com/hats-protocol/hats-protocol) eligibility module that conditions eligibility for one hat based on wearing another hat.
 
 ## Overview and Usage
+
+One use of a hat is to serve as an encapsulation of a set of logic and conditions that serve as baseline eligibility criteria for other hats. This eligibility module builds on that idea by allowing a hat to be used as an eligibility criterion for another hat.
 
 ## Development
 
@@ -13,13 +15,3 @@ This repo uses Foundry for development and testing. To get started:
 3. To install dependencies, run `forge install`
 4. To compile the contracts, run `forge build`
 5. To test, run `forge test`
-
-### IR-Optimized Builds
-
-This repo also supports contracts compiled via IR. Since compiling all contracts via IR would slow down testing workflows, we only want to do this for our target contract(s), not anything in this `test` or `script` stack. We accomplish this by pre-compiled the target contract(s) and then loading the pre-compiled artifacts in the test suite.
-
-First, we compile the target contract(s) via IR by running`FOUNDRY_PROFILE=optimized forge build` (ensuring that FOUNDRY_PROFILE is not in our .env file)
-
-Next, ensure that tests are using the `DeployOptimized` script, and run `forge test` as normal.
-
-See the wonderful [Seaport repo](https://github.com/ProjectOpenSea/seaport/blob/main/README.md#foundry-tests) for more details and options for this approach.
