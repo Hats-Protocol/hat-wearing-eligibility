@@ -71,10 +71,10 @@ contract DeployPrecompiled is Deploy {
 /* FORGE CLI COMMANDS
 
 ## A. Simulate the deployment locally
-forge script script/Deploy.s.sol -f mainnet
+forge script script/Deploy.s.sol:Deploy -f mainnet
 
 ## B. Deploy to real network and verify on etherscan
-forge script script/Deploy.s.sol -f mainnet --broadcast --verify
+forge script script/Deploy.s.sol:Deploy -f mainnet --broadcast --verify
 
 ## C. Fix verification issues (replace values in curly braces with the actual values)
 forge verify-contract --chain-id 1 --num-of-optimizations 1000000 --watch --constructor-args $(cast abi-encode \
