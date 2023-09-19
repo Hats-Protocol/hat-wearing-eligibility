@@ -35,10 +35,14 @@ contract HatWearingEligibility is HatsEligibilityModule {
    * 0       | IMPLEMENTATION    | address | 20      | HatsModule          |
    * 20      | HATS              | address | 20      | HatsModule          |
    * 40      | hatId             | uint256 | 32      | HatsModule          |
+   * 72      | CRITERION_HAT     | uint256 | 32      | this                |
    * ----------------------------------------------------------------------+
    */
 
-  /// @dev hatId is the id of the hat that determines eligibility
+  /// @notice The hat that this module checks for eligibility
+  function CRITERION_HAT() public pure returns (uint256) {
+    return _getArgUint256(72);
+  }
 
   /*//////////////////////////////////////////////////////////////
                             CONSTRUCTOR
@@ -54,7 +58,7 @@ contract HatWearingEligibility is HatsEligibilityModule {
 
   /// @inheritdoc HatsModule
   function _setUp(bytes calldata _initData) internal override {
-    // decode init data
+    // this module has no initialization logic
   }
 
   /*//////////////////////////////////////////////////////////////
@@ -71,6 +75,6 @@ contract HatWearingEligibility is HatsEligibilityModule {
     /// @dev this module does not determine standing, so we default to good standing
     standing = true;
 
-    eligible = HATS().isWearerOfHat(_wearer, hatId());
+    eligible = HATS().isWearerOfHat(_wearer, CRITERION_HAT());
   }
 }

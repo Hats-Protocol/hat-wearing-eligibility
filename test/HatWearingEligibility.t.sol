@@ -59,13 +59,12 @@ contract WithInstanceTest is HatWearingEligibilityTest {
     vm.stopPrank();
 
     // we don't have any other immutable args or init args, so we leave them empty
-    otherImmutableArgs;
+    otherImmutableArgs = abi.encode(criterionHat);
     initArgs;
 
     // deploy an instance of the module
-    instance = HatWearingEligibility(
-      deployModuleInstance(factory, address(implementation), criterionHat, otherImmutableArgs, initArgs)
-    );
+    instance =
+      HatWearingEligibility(deployModuleInstance(factory, address(implementation), 0, otherImmutableArgs, initArgs));
 
     // set the instance as the eligibility module for the target hat
     vm.prank(org);
@@ -97,7 +96,11 @@ contract Deployment is WithInstanceTest {
   }
 
   function test_hatId() public {
-    assertEq(instance.hatId(), criterionHat);
+    assertEq(instance.hatId(), 0);
+  }
+
+  function test_criterionHat() public {
+    assertEq(instance.CRITERION_HAT(), criterionHat);
   }
 }
 
