@@ -10,7 +10,7 @@ contract Deploy is Script {
 
   // default values
   bool internal _verbose = true;
-  string internal _version = "0.0.1"; // increment this with each new deployment
+  string internal _version = "0.2.0"; // increment this with each new deployment
 
   /// @dev Override default values, if desired
   function prepare(bool verbose, string memory version) public {
@@ -77,10 +77,9 @@ forge script script/Deploy.s.sol:Deploy -f mainnet
 forge script script/Deploy.s.sol:Deploy -f mainnet --broadcast --verify
 
 ## C. Fix verification issues (replace values in curly braces with the actual values)
-forge verify-contract --chain-id 1 --num-of-optimizations 1000000 --watch --constructor-args $(cast abi-encode \
- "constructor({args})" "{arg1}" "{arg2}" "{argN}" ) \ 
- --compiler-version v0.8.19 {deploymentAddress} \
- src/{Counter}.sol:{Counter} --etherscan-api-key $ETHERSCAN_KEY
+forge verify-contract --chain-id 5 --num-of-optimizations 1000000 --watch \
+ --compiler-version v0.8.19 0xa2e614CE4FAaD60e266127F4006b812d69977265 \
+ src/HatWearingEligibility.sol:HatWearingEligibility --etherscan-api-key $ETHERSCAN_KEY
 
 ## D. To verify ir-optimized contracts on etherscan...
   1. Run (C) with the following additional flag: `--show-standard-json-input > etherscan.json`
